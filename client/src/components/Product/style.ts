@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 export const useStyles = createUseStyles({
   itemContainer: {
     margin: "10px",
-    height: "450px",
+    height: "500px",
     overflow: "hidden",
     boxShadow: "0px 0px 3px 0px rgba(176,176,176,1);",
     padding: "5px",
@@ -23,4 +23,11 @@ export const useStyles = createUseStyles({
     margin: "0 5%",
     width: "90%",
   },
+  chipContainer:{
+      maxHeight:"50px",
+      overflow:"hidden"
+  },
+  chip:{
+      margin:"2px"
+  }
 });

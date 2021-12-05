@@ -6,5 +6,11 @@ export const useStyles = createUseStyles({
   },
   margin10:{
       margin:"10px",
+  },
+  width100:{
+      width:"100px",
+  },
+  floatLeft:{
+      float:"left"
   }
 });

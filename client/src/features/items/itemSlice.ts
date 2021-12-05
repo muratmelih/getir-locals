@@ -15,11 +15,23 @@ const initialState: ItemState = {
   count:0
 };
 
-export const getPagedAsync = createAsyncThunk("item/getAsync", async (index,pageSize) => {
+export const getPagedAsync = createAsyncThunk("item/getAsync", async (pageValues:any) => {
   const response = await getAllItems();
+  let data:Product[] = response.data;
+  if(pageValues.company){
+      data = data.filter((a:Product)=> a.manufacturer == pageValues.company);
+  }
+  if(pageValues.tag){      
+    data = data.filter((a:Product)=> a.tags.filter(b=> b.toUpperCase().includes(pageValues.tag.toUpperCase())).length);
+  }
+
+  if(pageValues.itemType){
+    data = data.filter((a:Product)=> a.itemType == pageValues.itemType);
+  }
+  
   const returnValue = {
-      data:response.data.slice((0 * index),),
-      count:response.data.length
+      data:data.slice((((pageValues.index -1)  * pageValues.pageSize)),(((pageValues.index -1)  * pageValues.pageSize)+ pageValues.pageSize)),
+      count:data.length
   }
   return returnValue;
 });
@@ -43,7 +55,7 @@ export const ItemSlice = createSlice({
 
 export const {} = ItemSlice.actions;
 
-export const selectItems = (state: RootState) => state.item.data;
+export const selectItems = (state: RootState) => state.item;
 
 
 export default ItemSlice.reducer;
