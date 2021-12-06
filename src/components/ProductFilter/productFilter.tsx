@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { useStyles } from "./style";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  getAsync,
+  getAllCompanies,
   selectCompanies,
 } from "../../features/companies/companySlice";
 import { Manufacturer } from "../../types/manufacturer";
@@ -29,7 +29,7 @@ function ProductFilter(props: any) {
   
 
   useEffect(() => {
-    dispatch(getAsync());
+    dispatch(getAllCompanies());
   }, []);
 
   useEffect(() => {

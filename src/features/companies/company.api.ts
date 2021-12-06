@@ -1,9 +1,9 @@
-import api from "../api/api";
+import jsonApi from "../api/json-api";
 
 
-export const getAllCompanies = async () => {
+export const getAll = async () => {
     try {
-        return api.get(`/companies`)
+        return jsonApi.get(`/companies`)
             .then(response => {
 
                 if (response) {
