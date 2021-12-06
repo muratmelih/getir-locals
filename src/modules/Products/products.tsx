@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import { ProductFilterType } from "../../types/productFilter";
 
 function Products() {
   const dispatch = useAppDispatch();
@@ -22,15 +23,19 @@ function Products() {
   const [pageSize, setPageSize] = useState<number>(16);
   const [page, setPage] = useState<number>(1);
   const items = useAppSelector(selectItems);
+  const [filters, setFilters] = useState<ProductFilterType>({});
 
   useEffect(() => {
-    dispatch(getPagedAsync({ index: page, pageSize: pageSize }));
-  }, [page,pageSize]);
+    dispatch(getPagedAsync({ index: page, pageSize: pageSize, ...filters }));
+  }, [page, pageSize, filters]);
 
-  const applyFilters = (company: string, tag: string, itemType: string) => {
-    dispatch(
-      getPagedAsync({ index: page, pageSize: pageSize, company, tag, itemType })
-    );
+  const applyFilters = (
+    company?: string,
+    tag?: string,
+    itemType?: string,
+    sortId?: number
+  ) => {
+    setFilters({ company, tag, itemType, sortId });
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,7 +44,7 @@ function Products() {
           <h1>Ürünler</h1>
         </Grid>
         <Grid item xs={12} className={classes.textCenter}>
-          <ProductFilter page={page} applyFilter={applyFilters}></ProductFilter>
+          <ProductFilter page={page}  applyFilter={applyFilters}></ProductFilter>
         </Grid>
         <Grid item xs={12}>
           <GridItem>sırala</GridItem>
@@ -81,7 +86,7 @@ function Products() {
         {items.data.map((item, i) => {
           return (
             <Grid key={i} item xs={12} sm={4} md={3}>
-              <Product item={item} />
+              <Product key={i} item={item} />
             </Grid>
           );
         })}

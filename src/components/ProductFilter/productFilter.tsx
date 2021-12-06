@@ -10,6 +10,11 @@ import {
   selectCompanies,
 } from "../../features/companies/companySlice";
 import { Manufacturer } from "../../types/manufacturer";
+import { sortData, SortType } from "../../types/sortType";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
 function ProductFilter(props: any) {
   const dispatch = useAppDispatch();
@@ -18,20 +23,23 @@ function ProductFilter(props: any) {
   const [company, setCompany] = useState<Manufacturer | null>(null);
   const [tag, setTag] = useState<string>("");
   const [type, setType] = useState<any>(null);
+  const [sortType, setSortType] = useState<number | null>(null);
 
   const types = [{ name: "shirt" }, { name: "mug" }];
+  
 
   useEffect(() => {
     dispatch(getAsync());
   }, []);
 
   useEffect(() => {
-    props.applyFilter(company?.slug, tag, type?.name);
-  }, [company, tag, type]);
+    debugger;
+    props.applyFilter(company?.slug, tag, type?.name,sortType);
+  }, [company, tag, type,sortType]);
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={3}>
         <div className={classes.margin10}>
           <Autocomplete
             className={classes.fullWidth}
@@ -53,7 +61,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={3}>
         <div className={classes.margin10}>
           <TextField
             id="tag-filter"
@@ -67,7 +75,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={3}>
         <div className={classes.margin10}>
           <Autocomplete
             className={classes.fullWidth}
@@ -88,6 +96,27 @@ function ProductFilter(props: any) {
               setType(v);
             }}
           />
+        </div>
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <div className={classes.margin10}>
+          <FormControl className={classes.fullWidth}>
+            <InputLabel id="row-select-lbl">Sırala</InputLabel>
+            <Select
+              labelId="row-select-lbl"
+              id="row-select"
+              value={sortType}
+              label="Sırala"
+              onChange={(e: any, v) => {
+                console.log("sort",e,v);
+                setSortType(e.target.value);
+              }}
+            >
+              {sortData.map((a) => {
+                return <MenuItem value={a.id}>{a.name}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
         </div>
       </Grid>
     </Grid>
