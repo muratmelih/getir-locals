@@ -1,10 +1,10 @@
 import axios from "axios";
-const api = axios.create({
-  baseURL: "http://localhost:3001",
+const jsonApi = axios.create({
+  baseURL: "https://getir-local-json-server.herokuapp.com/",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
 });
 
-export default api;
+export default jsonApi;

@@ -1,9 +1,9 @@
-import api from "../api/api";
+import jsonApi from "../api/json-api";
 
 
 export const getAllItems = async () => {
     try {
-        return api.get(`/items`)
+        return jsonApi.get(`/items`)
             .then(response => {
 
                 if (response) {

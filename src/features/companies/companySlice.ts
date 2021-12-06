@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { Manufacturer } from "../../types/manufacturer";
-import { getAllCompanies } from "./company.api";
+import { getAll } from "./company.api";
 
 export interface CompanyState {
   data: Manufacturer[];
@@ -13,8 +13,8 @@ const initialState: CompanyState = {
   status: "idle",
 };
 
-export const getAsync = createAsyncThunk("company/getAsync", async () => {
-  const response = await getAllCompanies();
+export const getAllCompanies = createAsyncThunk("company/getAll", async () => {
+  const response = await getAll();
   return response.data;
 });
 
@@ -24,10 +24,10 @@ export const companySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAsync.pending, (state) => {
+      .addCase(getAllCompanies.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getAsync.fulfilled, (state, action) => {
+      .addCase(getAllCompanies.fulfilled, (state, action) => {
         state.status = "idle";
         state.data = action.payload;
       });
