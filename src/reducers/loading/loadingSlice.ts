@@ -1,23 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 const initialState: boolean = false;
 
 export const loadingSlice = createSlice({
-  name: "loading",
+  name: "isLoading",
   initialState,
   reducers: {
-    show: (state) => {
-      state = true;
+    showLoading: (state) => {
+      return true;
     },
-    hide: (state) => {
-      state = false;
+    hideLoading: (state) => {
+      return false;
     },
   },
 });
 
-export const {show,hide} = loadingSlice.actions;
+export const { showLoading, hideLoading } = loadingSlice.actions;
 
-export const loading = (state: RootState) => state.loading;
+export const loadingStatus = (state: RootState) => state.isLoading;
 
 export default loadingSlice.reducer;

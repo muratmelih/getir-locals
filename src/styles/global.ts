@@ -13,7 +13,14 @@ export const globalStyles = createUseStyles({
   },
   textCenter:{
       textAlign:"center"
-  }
+  },
+  margin10: {
+    margin: "10px",
+  },
+  margin20: {
+    margin: "20px",
+  },
+  
 });
 
 export const classList=(list:string[])=>{
