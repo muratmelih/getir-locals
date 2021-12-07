@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Products from "./modules/Products/products";
-import Card from "./modules/Card/card";
 import Loader from "./components/Loader/loader";
 
 ReactDOM.render(
@@ -18,7 +17,6 @@ ReactDOM.render(
           <Routes>
             <Route path="/" element={<Products />}></Route>
             <Route path="/products" element={<Products />}></Route>
-            <Route path="/card" element={<Card />}></Route>
           </Routes>
         </BrowserRouter>
       </Loader>

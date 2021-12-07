@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useStyles } from "./style";
 import ProductFilter from "../../components/ProductFilter/productFilter";
-import Product from "../../components/Product/product";
+import ProductComponent from "../../components/Product/product";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
@@ -17,6 +17,8 @@ import Header from "../../components/Header/header";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import { globalStyles } from "../../styles/global";
+import CardComponent from "../../components/Card/card"
+import { selectCard, getAllCard } from "../../reducers/cards/cardSlice";
 
 function Products() {
   const dispatch = useAppDispatch();
@@ -31,6 +33,10 @@ function Products() {
     tag: [],
   });
   const [itemType, setItemType] = useState<string>();
+
+  useEffect(() => {
+    dispatch(getAllCard());
+  });
 
   useEffect(() => {
     if (!itemType) setItemType(types[0]);
@@ -61,13 +67,13 @@ function Products() {
       <div className={classes.productsContainer}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4} md={4} lg={3}>
               <ProductFilter
                 page={page}
                 applyFilter={applyFilters}
               ></ProductFilter>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={8} md={8} lg={6}>
               <Grid container spacing={0}>
                 <div className={classes.bigText}>Products</div>
                 <Grid item xs={12} className={classes.margin10}>
@@ -100,7 +106,7 @@ function Products() {
                     {items.data.map((item, i) => {
                       return (
                         <Grid key={i} item xs={12} sm={4} md={3}>
-                          <Product key={i} item={item} />
+                          <ProductComponent key={i} item={item} />
                         </Grid>
                       );
                     })}
@@ -120,7 +126,6 @@ function Products() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={3} className={classes.textCenter}></Grid>
           </Grid>
         </Box>
       </div>
