@@ -7,7 +7,7 @@ import { getAllItems } from "./items.api";
 export interface ItemState {
   data: Product[];
   count: number;
-  status: "idle" | "loading" | "failed";
+ loading:boolean;
 }
 
 interface PageFilterTypes {
@@ -21,7 +21,7 @@ interface PageFilterTypes {
 
 const initialState: ItemState = {
   data: [],
-  status: "idle",
+  loading: false,
   count: 0,
 };
 
@@ -115,10 +115,10 @@ export const ItemSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPagedAsync.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(getPagedAsync.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading =false;
         state.data = action.payload.data;
         state.count = action.payload.count;
       });
@@ -128,5 +128,6 @@ export const ItemSlice = createSlice({
 export const {} = ItemSlice.actions;
 
 export const selectItems = (state: RootState) => state.item;
+export const itemsStatus = (state:RootState)=>state.item.loading
 
 export default ItemSlice.reducer;

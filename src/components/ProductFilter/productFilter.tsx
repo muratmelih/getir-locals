@@ -33,7 +33,6 @@ function ProductFilter(props: any) {
   }, []);
 
   useEffect(() => {
-    debugger;
     props.applyFilter(company?.slug, tag, type?.name,sortType);
   }, [company, tag, type,sortType]);
 
