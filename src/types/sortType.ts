@@ -6,8 +6,8 @@ export interface SortType {
 }
 
 export const sortData: SortType[] = [
-  { id: SortEnum.NameAsc, name: "Ada göre artan" },
-  { id: SortEnum.NameDesc, name: "Ada göre azalan" },
-  { id: SortEnum.PriceAsc, name: "Fiyata göre artan" },
-  { id: SortEnum.PriceDesc, name: "Fiyata göre azalan" },
+  { id: SortEnum.DateAsc, name: "Old to new" },
+  { id: SortEnum.DateDesc, name: "New to old" },
+  { id: SortEnum.PriceAsc, name: "Price low to high" },
+  { id: SortEnum.PriceDesc, name: "Price high to low" },
 ];

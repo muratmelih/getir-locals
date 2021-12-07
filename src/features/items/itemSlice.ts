@@ -49,7 +49,7 @@ export const getPagedAsync = createAsyncThunk(
     }
     if (pageValues.sortId) {
       switch (pageValues.sortId) {
-        case SortEnum.NameAsc:
+        case SortEnum.DateAsc:
           data = data.sort((a, b) => {
             if (a.name < b.name) {
               return -1;
@@ -60,7 +60,7 @@ export const getPagedAsync = createAsyncThunk(
             return 0;
           });
           break;
-        case SortEnum.NameDesc:
+        case SortEnum.DateDesc:
           data = data.sort((a, b) => {
             if (a.name < b.name) {
               return 1;

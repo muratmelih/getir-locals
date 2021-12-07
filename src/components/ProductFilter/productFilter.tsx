@@ -38,7 +38,7 @@ function ProductFilter(props: any) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12}>
         <div className={classes.margin10}>
           <Autocomplete
             className={classes.fullWidth}
@@ -60,7 +60,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} >
         <div className={classes.margin10}>
           <TextField
             id="tag-filter"
@@ -74,7 +74,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12}>
         <div className={classes.margin10}>
           <Autocomplete
             className={classes.fullWidth}
@@ -97,7 +97,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12}>
         <div className={classes.margin10}>
           <FormControl className={classes.fullWidth}>
             <InputLabel id="row-select-lbl">Sırala</InputLabel>

@@ -12,5 +12,14 @@ export const useStyles = createUseStyles({
   },
   floatLeft:{
       float:"left"
+  },
+  productsContainer:{
+    width:"90%",
+    margin:"0 auto",
+    marginTop:"125px"
+  },
+  paginatorContainer:{
+    width:"350px",
+    margin:"0 auto"
   }
 });
