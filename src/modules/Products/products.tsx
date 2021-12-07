@@ -1,42 +1,58 @@
 import React, { useState, useEffect } from "react";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import GridItem from "../../components/GridItem/gridItem";
 import { useStyles } from "./style";
 import ProductFilter from "../../components/ProductFilter/productFilter";
 import Product from "../../components/Product/product";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { getPagedAsync, selectItems } from "../../features/items/itemSlice";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
+import {
+  getPagedAsync,
+  selectItems,
+  selectItemTypes,
+} from "../../reducers/items/itemSlice";
 import { ProductFilterType } from "../../types/productFilter";
 import Header from "../../components/Header/header";
 import Card from "@mui/material/Card";
+import Chip from "@mui/material/Chip";
+import { globalStyles } from "../../styles/global";
 
 function Products() {
   const dispatch = useAppDispatch();
   const classes = useStyles();
-  const pageSizeList = [4, 8, 16];
+  const globalClasses = globalStyles();
+  const items = useAppSelector(selectItems);
+  const types = useAppSelector(selectItemTypes);
   const [pageSize, setPageSize] = useState<number>(16);
   const [page, setPage] = useState<number>(1);
-  const items = useAppSelector(selectItems);
-  const [filters, setFilters] = useState<ProductFilterType>({});
+  const [filters, setFilters] = useState<ProductFilterType>({
+    company: [],
+    tag: [],
+  });
+  const [itemType, setItemType] = useState<string>();
 
   useEffect(() => {
-    dispatch(getPagedAsync({ index: page, pageSize: pageSize, ...filters }));
+    if (!itemType) setItemType(types[0]);
+  }, [types]);
+
+  useEffect(() => {
+    setFilters((prevState) => {
+      return { ...prevState, itemType: itemType };
+    });
+  }, [itemType]);
+
+  useEffect(() => {
+    dispatch(
+      getPagedAsync({
+        index: page,
+        pageSize: pageSize,
+        ...filters,
+      })
+    );
   }, [page, pageSize, filters]);
 
-  const applyFilters = (
-    company?: string,
-    tag?: string,
-    itemType?: string,
-    sortId?: number
-  ) => {
+  const applyFilters = (company: string[], tag: string[], sortId?: number) => {
     setFilters({ company, tag, itemType, sortId });
   };
   return (
@@ -45,7 +61,7 @@ function Products() {
       <div className={classes.productsContainer}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={3} className={classes.textCenter}>
+            <Grid item xs={12} sm={3}>
               <ProductFilter
                 page={page}
                 applyFilter={applyFilters}
@@ -53,26 +69,33 @@ function Products() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Grid container spacing={0}>
-                {/* <Grid item xs={2} sm={6}>
-                  <FormControl>
-                    <InputLabel id="row-select-lbl">Satır Sayısı</InputLabel>
-                    <Select
-                      className={classes.width100}
-                      labelId="row-select-lbl"
-                      id="row-select"
-                      value={pageSize}
-                      label="Satır Sayısı"
-                      onChange={(e, v) => {
-                        setPageSize(Number(e.target.value));
-                      }}
-                    >
-                      {pageSizeList.map((a) => {
-                        return <MenuItem value={a}>{a}</MenuItem>;
-                      })}
-                    </Select>
-                  </FormControl>
-                </Grid> */}
-                <Card sx={{ minWidth: "100%" }}>
+                <div className={classes.bigText}>Products</div>
+                <Grid item xs={12} className={classes.margin10}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    className={globalClasses.marginTop10}
+                  >
+                    {types.map((a) => {
+                      return (
+                        <Chip
+                          label={a}
+                          className={`${classes.chip} ${
+                            a == itemType ? classes.activeChip : ""
+                          }`}
+                          size="small"
+                          variant="outlined"
+                          onClick={(e) => setItemType(a)}
+                          clickable
+                        />
+                      );
+                    })}
+                  </Stack>
+                </Grid>
+                <Card
+                  sx={{ minWidth: "100%" }}
+                  className={globalClasses.marginTop10}
+                >
                   <Grid container spacing={0}>
                     {items.data.map((item, i) => {
                       return (
