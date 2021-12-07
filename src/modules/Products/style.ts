@@ -16,7 +16,7 @@ export const useStyles = createUseStyles({
   productsContainer:{
     width:"90%",
     margin:"0 auto",
-    marginTop:"50px"
+    marginTop:"125px"
   },
   paginatorContainer:{
     width:"350px",
