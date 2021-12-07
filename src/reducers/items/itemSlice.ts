@@ -9,11 +9,12 @@ export interface ItemState {
   count: number;
   itemTypes: string[];
   loading: boolean;
+  tags: string[];
 }
 
 interface PageFilterTypes {
-  company?: string;
-  tag?: string;
+  company: string[];
+  tag: string[];
   itemType?: string;
   sortId?: number;
   index: number;
@@ -25,6 +26,7 @@ const initialState: ItemState = {
   loading: false,
   count: 0,
   itemTypes: [],
+  tags: [],
 };
 
 export const getPagedAsync = createAsyncThunk(
@@ -36,20 +38,26 @@ export const getPagedAsync = createAsyncThunk(
       .map((item) => item.itemType)
       .filter((value, index, self) => self.indexOf(value) === index);
 
+    let tags: string[] = [];
+
+    data.map((a) => {
+      a.tags.map((t) => {
+        if (!tags.find((tag) => tag == t)) {
+          tags.push(t);
+        }
+      });
+    });
     if (pageValues.itemType) {
       data = data.filter((a: Product) => a.itemType == pageValues.itemType);
     }
-    if (pageValues.company) {
-      data = data.filter((a: Product) => a.manufacturer == pageValues.company);
+    if (pageValues.company.length) {
+      data = data.filter((a: Product) =>
+        pageValues.company.includes(a.manufacturer)
+      );
     }
-    if (pageValues.tag) {
+    if (pageValues.tag.length) {
       data = data.filter(
-        (a: Product) =>
-          a.tags.filter((b) =>
-            b
-              .toUpperCase()
-              .includes(pageValues.tag ? pageValues.tag.toUpperCase() : "")
-          ).length
+        (a: Product) => a.tags.filter((b) => pageValues.tag.includes(b)).length
       );
     }
     if (pageValues.sortId) {
@@ -108,7 +116,8 @@ export const getPagedAsync = createAsyncThunk(
         (pageValues.index - 1) * pageValues.pageSize + pageValues.pageSize
       ),
       count: data.length,
-      itemTypes:types
+      itemTypes: types,
+      tags: tags,
     };
     return returnValue;
   }
@@ -128,6 +137,7 @@ export const ItemSlice = createSlice({
         state.data = action.payload.data;
         state.count = action.payload.count;
         state.itemTypes = action.payload.itemTypes;
+        state.tags = action.payload.tags;
       });
   },
 });
@@ -137,5 +147,6 @@ export const {} = ItemSlice.actions;
 export const selectItems = (state: RootState) => state.item;
 export const itemsStatus = (state: RootState) => state.item.loading;
 export const selectItemTypes = (state: RootState) => state.item.itemTypes;
+export const selectTags = (state: RootState) => state.item.tags;
 
 export default ItemSlice.reducer;

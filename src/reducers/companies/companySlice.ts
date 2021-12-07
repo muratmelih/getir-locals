@@ -5,7 +5,7 @@ import { getAll } from "./company.api";
 
 export interface CompanyState {
   data: Manufacturer[];
-  loading:  boolean;
+  loading: boolean;
 }
 
 const initialState: CompanyState = {
@@ -15,7 +15,9 @@ const initialState: CompanyState = {
 
 export const getAllCompanies = createAsyncThunk("company/getAll", async () => {
   const response = await getAll();
-  return response.data;
+  return response.data.map((a:Manufacturer) => {
+    return a.slug;
+  });
 });
 
 export const companySlice = createSlice({
@@ -38,6 +40,5 @@ export const {} = companySlice.actions;
 
 export const selectCompanies = (state: RootState) => state.company.data;
 export const companyStatus = (state: RootState) => state.company.loading;
-
 
 export default companySlice.reducer;

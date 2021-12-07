@@ -16,15 +16,20 @@ import { ProductFilterType } from "../../types/productFilter";
 import Header from "../../components/Header/header";
 import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
+import { globalStyles } from "../../styles/global";
 
 function Products() {
   const dispatch = useAppDispatch();
   const classes = useStyles();
+  const globalClasses = globalStyles();
   const items = useAppSelector(selectItems);
   const types = useAppSelector(selectItemTypes);
   const [pageSize, setPageSize] = useState<number>(16);
   const [page, setPage] = useState<number>(1);
-  const [filters, setFilters] = useState<ProductFilterType>({});
+  const [filters, setFilters] = useState<ProductFilterType>({
+    company: [],
+    tag: [],
+  });
   const [itemType, setItemType] = useState<string>();
 
   useEffect(() => {
@@ -33,9 +38,10 @@ function Products() {
 
   useEffect(() => {
     setFilters((prevState) => {
-      return {...prevState,itemType:itemType}
+      return { ...prevState, itemType: itemType };
     });
   }, [itemType]);
+
   useEffect(() => {
     dispatch(
       getPagedAsync({
@@ -46,7 +52,7 @@ function Products() {
     );
   }, [page, pageSize, filters]);
 
-  const applyFilters = (company?: string, tag?: string, sortId?: number) => {
+  const applyFilters = (company: string[], tag: string[], sortId?: number) => {
     setFilters({ company, tag, itemType, sortId });
   };
   return (
@@ -68,12 +74,15 @@ function Products() {
                   <Stack
                     direction="row"
                     spacing={1}
-                    className={classes.margin10}
+                    className={globalClasses.marginTop10}
                   >
                     {types.map((a) => {
                       return (
                         <Chip
                           label={a}
+                          className={`${classes.chip} ${
+                            a == itemType ? classes.activeChip : ""
+                          }`}
                           size="small"
                           variant="outlined"
                           onClick={(e) => setItemType(a)}
@@ -83,7 +92,10 @@ function Products() {
                     })}
                   </Stack>
                 </Grid>
-                <Card sx={{ minWidth: "100%" }}>
+                <Card
+                  sx={{ minWidth: "100%" }}
+                  className={globalClasses.marginTop10}
+                >
                   <Grid container spacing={0}>
                     {items.data.map((item, i) => {
                       return (
