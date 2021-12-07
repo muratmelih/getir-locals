@@ -15,6 +15,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { ProductFilterType } from "../../types/productFilter";
+import Header from "../../components/Header/header";
+import Card from "@mui/material/Card";
 
 function Products() {
   const dispatch = useAppDispatch();
@@ -38,60 +40,68 @@ function Products() {
     setFilters({ company, tag, itemType, sortId });
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} className={classes.textCenter}>
-          <h1>Ürünler</h1>
-        </Grid>
-        <Grid item xs={12} className={classes.textCenter}>
-          <ProductFilter page={page}  applyFilter={applyFilters}></ProductFilter>
-        </Grid>
-        <Grid item xs={12}>
-          <GridItem>sırala</GridItem>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={0}>
-            <Grid item xs={10} sm={3}>
-              <Stack spacing={2} className={`${classes.margin10}`}>
-                <Pagination
-                  count={Math.ceil(items.count / pageSize)}
-                  page={page}
-                  onChange={(e, v) => {
-                    setPage(v);
-                  }}
-                />
-              </Stack>
+    <>
+      <Header />
+      <div className={classes.productsContainer}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={3} className={classes.textCenter}>
+              <ProductFilter
+                page={page}
+                applyFilter={applyFilters}
+              ></ProductFilter>
             </Grid>
-            <Grid item xs={2} sm={6}>
-              <FormControl>
-                <InputLabel id="row-select-lbl">Satır Sayısı</InputLabel>
-                <Select
-                  className={classes.width100}
-                  labelId="row-select-lbl"
-                  id="row-select"
-                  value={pageSize}
-                  label="Satır Sayısı"
-                  onChange={(e, v) => {
-                    setPageSize(Number(e.target.value));
-                  }}
-                >
-                  {pageSizeList.map((a) => {
-                    return <MenuItem value={a}>{a}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
+            <Grid item xs={12} sm={6}>
+              <Grid container spacing={0}>
+                {/* <Grid item xs={2} sm={6}>
+                  <FormControl>
+                    <InputLabel id="row-select-lbl">Satır Sayısı</InputLabel>
+                    <Select
+                      className={classes.width100}
+                      labelId="row-select-lbl"
+                      id="row-select"
+                      value={pageSize}
+                      label="Satır Sayısı"
+                      onChange={(e, v) => {
+                        setPageSize(Number(e.target.value));
+                      }}
+                    >
+                      {pageSizeList.map((a) => {
+                        return <MenuItem value={a}>{a}</MenuItem>;
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid> */}
+                <Card sx={{ minWidth: "100%" }}>
+                  <Grid container spacing={0}>
+                    {items.data.map((item, i) => {
+                      return (
+                        <Grid key={i} item xs={12} sm={4} md={3}>
+                          <Product key={i} item={item} />
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                </Card>
+
+                <Grid item xs={12}>
+                  <Stack spacing={2} className={classes.paginatorContainer}>
+                    <Pagination
+                      count={Math.ceil(items.count / pageSize)}
+                      page={page}
+                      onChange={(e, v) => {
+                        setPage(v);
+                      }}
+                    />
+                  </Stack>
+                </Grid>
+              </Grid>
             </Grid>
+            <Grid item xs={12} sm={3} className={classes.textCenter}></Grid>
           </Grid>
-        </Grid>
-        {items.data.map((item, i) => {
-          return (
-            <Grid key={i} item xs={12} sm={4} md={3}>
-              <Product key={i} item={item} />
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Box>
+        </Box>
+      </div>
+    </>
   );
 }
 

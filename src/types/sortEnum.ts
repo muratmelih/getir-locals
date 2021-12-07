@@ -1,6 +1,6 @@
 export enum SortEnum{
-    NameAsc=1,
-    NameDesc,
+    DateAsc=1,
+    DateDesc,
     PriceAsc,
     PriceDesc
 }
