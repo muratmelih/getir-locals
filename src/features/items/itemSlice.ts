@@ -34,6 +34,7 @@ export const getPagedAsync = createAsyncThunk(
       data = data.filter((a: Product) => a.manufacturer == pageValues.company);
     }
     if (pageValues.tag) {
+      debugger;
       data = data.filter(
         (a: Product) =>
           a.tags.filter((b) =>

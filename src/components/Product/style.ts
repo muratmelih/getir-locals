@@ -12,7 +12,8 @@ export const useStyles = createUseStyles({
     height: "150px",
     border: "1px solid rgba(176,176,176,1)",
     borderRadius:"10px",
-    padding:"10px"
+    padding:"10px",
+    textAlign:"center"
   },
   itemDescription: {
     maxHeight: "80px",
