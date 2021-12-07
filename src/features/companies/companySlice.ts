@@ -5,12 +5,12 @@ import { getAll } from "./company.api";
 
 export interface CompanyState {
   data: Manufacturer[];
-  status: "idle" | "loading" | "failed";
+  loading:  boolean;
 }
 
 const initialState: CompanyState = {
   data: [],
-  status: "idle",
+  loading: false,
 };
 
 export const getAllCompanies = createAsyncThunk("company/getAll", async () => {
@@ -25,10 +25,10 @@ export const companySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllCompanies.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(getAllCompanies.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loading = false;
         state.data = action.payload;
       });
   },
@@ -37,6 +37,7 @@ export const companySlice = createSlice({
 export const {} = companySlice.actions;
 
 export const selectCompanies = (state: RootState) => state.company.data;
+export const companyStatus = (state: RootState) => state.company.loading;
 
 
 export default companySlice.reducer;
