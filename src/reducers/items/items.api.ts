@@ -1,4 +1,4 @@
-import jsonApi from "../api/json-api";
+import jsonApi from "../../api/json-api";
 
 
 export const getAllItems = async () => {

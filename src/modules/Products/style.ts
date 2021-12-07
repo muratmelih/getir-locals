@@ -21,5 +21,8 @@ export const useStyles = createUseStyles({
   paginatorContainer:{
     width:"350px",
     margin:"0 auto"
+  },
+  bigText:{
+    fontSize:"24px"
   }
 });

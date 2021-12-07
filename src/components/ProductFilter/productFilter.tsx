@@ -8,13 +8,17 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   getAllCompanies,
   selectCompanies,
-} from "../../features/companies/companySlice";
+} from "../../reducers/companies/companySlice";
 import { Manufacturer } from "../../types/manufacturer";
 import { sortData, SortType } from "../../types/sortType";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import Card from "@mui/material/Card";
 
 function ProductFilter(props: any) {
   const dispatch = useAppDispatch();
@@ -23,56 +27,75 @@ function ProductFilter(props: any) {
   const [company, setCompany] = useState<Manufacturer | null>(null);
   const [tag, setTag] = useState<string>("");
   const [type, setType] = useState<any>(null);
-  const [sortType, setSortType] = useState<number | null>(null);
+  const [sortType, setSortType] = useState<number | null>(1);
 
   const types = [{ name: "shirt" }, { name: "mug" }];
-  
 
   useEffect(() => {
     dispatch(getAllCompanies());
   }, []);
 
   useEffect(() => {
-    props.applyFilter(company?.slug, tag, type?.name,sortType);
-  }, [company, tag, type,sortType]);
+    props.applyFilter(company?.slug, tag, sortType);
+  }, [company, tag, type, sortType]);
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <div className={classes.margin10}>
-          <Autocomplete
-            className={classes.fullWidth}
-            disablePortal
-            id="brand-filter"
-            options={companies}
-            sx={{ width: 300 }}
-            value={company}
-            getOptionLabel={(option) => option.name}
-            renderInput={(params) => <TextField {...params} label="Marka" />}
-            renderOption={(props, option) => (
-              <Box component="li" {...props}>
-                {option.name}
-              </Box>
-            )}
-            onChange={(e, v) => {
-              setCompany(v);
-            }}
-          />
-        </div>
+        <div>Sort</div>
+
+        <Card sx={{ minWidth: "100%" }}>
+          <div className={classes.margin10}>
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="gender"
+                value={sortType}
+                name="sort-radio-group"
+                onChange={(e: any, v) => {
+                  setSortType(Number(e.target.value));
+                }}
+              >
+                {sortData.map((a) => {
+                  return (
+                    <FormControlLabel
+                      value={a.id}
+                      control={<Radio />}
+                      label={a.name}
+                    />
+                  );
+                })}
+              </RadioGroup>
+            </FormControl>
+          </div>
+        </Card>
       </Grid>
-      <Grid item xs={12} >
-        <div className={classes.margin10}>
-          <TextField
-            id="tag-filter"
-            label="Tag"
-            variant="outlined"
-            value={tag}
-            className={classes.fullWidth}
-            onChange={(e) => {
-              setTag(e.target.value);
-            }}
-          />
-        </div>
+      <Grid item xs={12}>
+        <div>Brands</div>
+
+        <Card sx={{ minWidth: "100%" }}>
+          <div className={classes.margin10}>
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="gender"
+                value={sortType}
+                name="sort-radio-group"
+                onChange={(e: any, v) => {
+                  setSortType(Number(e.target.value));
+                }}
+              >
+                {sortData.map((a) => {
+                  return (
+                    <FormControlLabel
+                      value={a.id}
+                      control={<Radio />}
+                      label={a.name}
+                    />
+                  );
+                })}
+              </RadioGroup>
+            </FormControl>
+          </div>
+        </Card>
       </Grid>
       <Grid item xs={12}>
         <div className={classes.margin10}>
@@ -97,27 +120,7 @@ function ProductFilter(props: any) {
           />
         </div>
       </Grid>
-      <Grid item xs={12}>
-        <div className={classes.margin10}>
-          <FormControl className={classes.fullWidth}>
-            <InputLabel id="row-select-lbl">Sırala</InputLabel>
-            <Select
-              labelId="row-select-lbl"
-              id="row-select"
-              value={sortType}
-              label="Sırala"
-              onChange={(e: any, v) => {
-                console.log("sort",e,v);
-                setSortType(e.target.value);
-              }}
-            >
-              {sortData.map((a) => {
-                return <MenuItem value={a.id}>{a.name}</MenuItem>;
-              })}
-            </Select>
-          </FormControl>
-        </div>
-      </Grid>
+      <Grid item xs={12}></Grid>
     </Grid>
   );
 }
