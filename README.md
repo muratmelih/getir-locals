@@ -3,6 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 App url : https://getir-locals-app.herokuapp.com/
 
 Application gets items and companies from getir-locals-json-server. It has filter for items as tags,brand. Also has sorting feature for date and price.
+Adds ,updates or removes items from card using getir-locals-api
 
 ## Available Scripts
 
