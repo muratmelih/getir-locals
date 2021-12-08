@@ -33,7 +33,7 @@ test("should set loading state false", () => {
   expect(loadingReducer(previousState, hideLoading())).toEqual(false);
 });
 
-test("the data is list of companies", async () => {
+test("should response.data count is greater than 0", async () => {
   const response = await getAll();
   expect(response.data.length).toBeGreaterThan(0);
 });
