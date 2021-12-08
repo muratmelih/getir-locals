@@ -34,7 +34,6 @@ function ProductFilter(props: any) {
   const [type, setType] = useState<any>(null);
   const [sortType, setSortType] = useState<number | null>(1);
 
-
   useEffect(() => {
     dispatch(getAllCompanies());
   }, []);
@@ -43,12 +42,12 @@ function ProductFilter(props: any) {
     props.applyFilter(company, tag, sortType);
   }, [company, tag, type, sortType]);
 
-  const applyCompanyFilter=(data:string[])=>{
+  const applyCompanyFilter = (data: string[]) => {
     setCompany(data);
-  }
-  const applyTagFilter=(data:string[])=>{
+  };
+  const applyTagFilter = (data: string[]) => {
     setTag(data);
-  }
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -65,9 +64,10 @@ function ProductFilter(props: any) {
                   setSortType(Number(e.target.value));
                 }}
               >
-                {sortData.map((a) => {
+                {sortData.map((a, i) => {
                   return (
                     <FormControlLabel
+                      key={i}
                       value={a.id}
                       control={<Radio />}
                       label={a.name}
@@ -93,7 +93,7 @@ function ProductFilter(props: any) {
 
         <Card sx={{ minWidth: "100%" }} className={globalClasses.marginTop10}>
           <div className={classes.margin10}>
-            <BasicFilter data={tags}  applyFilter={applyTagFilter}/>
+            <BasicFilter data={tags} applyFilter={applyTagFilter} />
           </div>
         </Card>
       </Grid>
