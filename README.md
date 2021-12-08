@@ -6,6 +6,8 @@ Application gets items and companies from getir-locals-json-server. It has filte
 Adds ,updates or removes items from card using getir-locals-api
 It uses jss for styling.
 Has some test examples in App.test.tsx
+![image](https://user-images.githubusercontent.com/8982629/145164041-24b44f0d-85db-48c7-94fa-94629c29cd24.png)
+
 
 ## Available Scripts
 
